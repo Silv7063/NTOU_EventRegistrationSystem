@@ -2,7 +2,7 @@
 #.env
 
 # 忽略 Node.js 模組
-##node_modules/
+#node_modules/
 
 # 忽略日誌檔案
 logs/
