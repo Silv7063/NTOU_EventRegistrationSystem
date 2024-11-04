@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-const eventRoutes = require('./src/routes/eventRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 app.use('/api', eventRoutes);
 
-const authRoutes = require('./src/routes/authRoutes');
+const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
