@@ -9,7 +9,7 @@
 import EventList from '../components/EventList.vue';
 
 export default {
-  name: 'Home',
+  name: 'HomePage',
   components: {
     EventList
   }

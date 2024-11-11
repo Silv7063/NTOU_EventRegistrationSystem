@@ -1,24 +1,24 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import { getEvents, getEventDetails } from '../services/api';
+import { createStore } from 'vuex';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     events: [],
     eventDetail: null,
   },
+  /*
   actions: {
     async fetchEvents({ commit }) {
+      // 這裡可以添加從 API 獲取活動資料的邏輯
       const events = await getEvents();
       commit('setEvents', events);
     },
     async fetchEventDetail({ commit }, id) {
+      // 這裡可以添加從 API 獲取單一活動詳情的邏輯
       const eventDetail = await getEventDetails(id);
       commit('setEventDetail', eventDetail);
     }
   },
+  */
   mutations: {
     setEvents(state, events) {
       state.events = events;

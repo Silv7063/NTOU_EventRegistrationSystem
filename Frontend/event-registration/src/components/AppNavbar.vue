@@ -10,13 +10,13 @@
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'AppNavbar'
 };
 </script>
 
 <style scoped>
 nav {
-  background-color: #333;
+  background-color: #aaa;
   padding: 1rem;
 }
 
