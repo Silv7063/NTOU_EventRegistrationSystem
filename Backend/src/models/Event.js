@@ -1,15 +1,12 @@
-// models/Event.js
 const mongoose = require('mongoose');
-
 const eventSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: String,
-    date: { type: Date, required: true },
-    location: String,
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    participantRoles: [{ type: String, enum: ['student', 'teacher', 'staff'] }], // 參與者身分限制
-    attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    isActive: { type: Boolean, default: true }
+    name: {type: String, required: true},
+    舉辦單位: {type: String, required: true},
+    date: Date,
+    location: {type: String, maxlength: 255},
+    標籤: {type: [String], /*標籤用陣列形式存放多個標籤*/ maxlength: 255}, //之後可以用enum
+    預計人數: {type: Number, required: true},
+    活動簡介: {type: String, maxlength: 2000}
 });
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Events', eventSchema);
