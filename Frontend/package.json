@@ -1,5 +1,41 @@
 {
+	"name": "ntou-event-registration-system-frontend",
+	"version": "1.0.0",
+	"description": "Frontend for NTOU Event Registration System",
+	"author": "National Taiwan Ocean University",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint",
+		"test": "vue-cli-service test:unit",
+		"dev": "nodemon --watch src --exec \"pnpm run serve\""
+	},
 	"dependencies": {
-		"cross-spawn": "^7.0.5"
+		"axios": "^1.5.0",
+		"bootstrap": "^5.3.0",
+		"core-js": "^3.25.0",
+		"dayjs": "^1.10.8",
+		"vue": "^3.2.45",
+		"vue-datepicker": "^1.3.0",
+		"vue-i18n": "^9.2.0",
+		"vue-multiselect": "^3.0.0",
+		"vue-router": "^4.0.14",
+		"vuelidate": "^0.7.7",
+		"vuex": "^4.0.2"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.17.0",
+		"@vue/cli-plugin-babel": "^5.0.0",
+		"@vue/cli-plugin-eslint": "^5.0.8",
+		"@vue/cli-service": "^5.0.0",
+		"eslint": "8.57.1",
+		"eslint-plugin-vue": "^9.32.0",
+		"globals": "^15.14.0",
+		"nodemon": "^3.1.9",
+		"sass": "^1.43.4",
+		"sass-loader": "^12.0.0",
+		"vue-loader": "^17.0.0",
+		"webpack": "^5.50.0"
 	}
 }

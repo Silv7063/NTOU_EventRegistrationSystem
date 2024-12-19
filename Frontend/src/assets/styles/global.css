@@ -1,0 +1,51 @@
+/* global.css */
+
+/* 設置全域字型 */
+body {
+    font-family: 'Arial', sans-serif; /* 主要字型 */
+    font-size: 16px;                  /* 文字大小 */
+    line-height: 1.6;                 /* 行高 */
+    margin: 0;                        /* 去除頁面邊距 */
+    padding: 0;                       /* 去除頁面內邊距 */
+    background-color: #f4f4f4;        /* 背景色 */
+    color: #333;                      /* 文字顏色 */
+  }
+  
+  /* 設置超鏈接樣式 */
+  a {
+    color: #007bff;                   /* 預設藍色 */
+    text-decoration: none;            /* 去除下劃線 */
+  }
+  
+  a:hover {
+    color: #0056b3;                   /* 滑鼠懸停時顏色 */
+    text-decoration: underline;       /* 滑鼠懸停時顯示下劃線 */
+  }
+  
+  /* 頁面主要區域樣式 */
+  .container {
+    width: 90%;
+    margin: 0 auto;                   /* 居中對齊 */
+    max-width: 1200px;                /* 最大寬度 */
+  }
+  
+  /* 設置常見的按鈕樣式 */
+  button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;               /* 圓角 */
+  }
+  
+  /* 響應式設計 */
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;                /* 在小螢幕上減小字型大小 */
+    }
+  
+    .container {
+      width: 100%;                    /* 在小螢幕上容器寬度為100% */
+    }
+  }
+  

@@ -1,0 +1,57 @@
+/* theme.css */
+
+/* 設置網站主題顏色 */
+:root {
+    --primary-color: #007bff;  /* 主題顏色 (藍色) */
+    --secondary-color: #6c757d; /* 次要顏色 (灰色) */
+    --background-color: #f4f4f4; /* 背景色 */
+    --text-color: #333;          /* 文字顏色 */
+    --header-bg: #343a40;        /* 標題背景色 */
+    --button-bg: #007bff;        /* 按鈕背景色 */
+    --button-hover-bg: #0056b3;  /* 按鈕懸停背景色 */
+    --border-radius: 5px;        /* 圓角半徑 */
+  }
+  
+  /* 頁面標題樣式 */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--header-bg);      /* 標題顏色 */
+    font-family: 'Helvetica', sans-serif;
+  }
+  
+  /* 按鈕樣式 */
+  button {
+    background-color: var(--button-bg); /* 主題背景色 */
+    color: white;                      /* 按鈕文字顏色 */
+    border-radius: var(--border-radius);
+  }
+  
+  button:hover {
+    background-color: var(--button-hover-bg); /* 按鈕懸停顏色 */
+  }
+  
+  /* 頁腳樣式 */
+  footer {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* 特定區域背景色 */
+  .header {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 20px;
+  }
+  
+  /* 響應式設計 (針對小螢幕設備) */
+  @media (max-width: 768px) {
+    :root {
+      --primary-color: #28a745;  /* 小螢幕設備改為綠色主題 */
+    }
+  
+    body {
+      font-size: 14px;
+    }
+  }
+  
