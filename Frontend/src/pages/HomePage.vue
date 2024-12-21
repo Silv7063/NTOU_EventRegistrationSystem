@@ -56,6 +56,7 @@
 
 <script>
 import ActivityCard from '@/components/ActivityCard.vue'
+console.log('/events'); // 檢查這是否符合後端的路徑
 
 export default {
   components: {
@@ -75,15 +76,33 @@ export default {
   methods: {
     async fetchEvents() {
       try {
-        const response = await this.$axios.get('/api/events')
-        this.events = response.data
-        this.filteredEvents = response.data
+        const response = await this.$axios.get('/events');
+        this.events = response.data;
+        this.filteredEvents = response.data;
       } catch (error) {
-        this.$toast.error(error) 
+        console.error('API 错误:', error); // 输出完整的 error 对象，帮助调试
+
+        let errorMessage = '發生未知錯誤'; // 默认错误消息
+        let errorDetails = '無詳細錯誤訊息'; // 默认错误详情
+
+        // 检查 error 对象的结构，确保安全访问
+        if (error && error.response) {
+          if (error.response.data) {
+            // 确保 error.response.data 存在
+            errorMessage = error.response.data.message || '無錯誤訊息';
+            errorDetails = error.response.data.error || '無詳細錯誤訊息';
+          } else {
+            errorMessage = '無法獲得錯誤詳情';
+          }
+        } else if (error && error.message) {
+          // 处理没有 response 的错误（例如网络错误）
+          errorMessage = error.message;
+        }
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
+
     applyFilter() {
       if (this.filter) {
         this.filteredEvents = this.events.filter(event =>
@@ -96,6 +115,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style scoped>
 .home {

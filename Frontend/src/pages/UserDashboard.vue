@@ -42,7 +42,7 @@ export default {
   methods: {
     async fetchUserInfo() {
       try {
-        const response = await this.$axios.get('/api/user/me')
+        const response = await this.$axios.get('/user/me')
         this.user = response.data
         this.userEvents = response.data.events
       } catch (error) {
@@ -53,7 +53,7 @@ export default {
     },
     async cancelRegistration(eventId) {
       try {
-        await this.$axios.delete(`/api/events/${eventId}/unregister`)
+        await this.$axios.delete(`/events/${eventId}/unregister`)
         this.userEvents = this.userEvents.filter(event => event._id !== eventId)
         this.$toast.success('已成功取消報名') // 顯示成功的提示
       } catch (error) {

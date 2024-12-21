@@ -1,5 +1,5 @@
 const express = require('express');
-const authRoutes = require('./authenticationRoutes');
+const authRoutes = require('./authRoutes');
 const eventRoutes = require('./eventRoutes');
 const userRoutes = require('./userRoutes');
 

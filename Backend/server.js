@@ -27,9 +27,9 @@ app.get('/', (req, res) => {
   res.send('Hello, welcome to the NTOU Event Registration System!');
 });
 // 設置路由
-app.use('/api/auth', authRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/events', eventRoutes);
+app.use('/users', userRoutes);
 
 // 啟動伺服器
 const PORT = process.env.PORT || 4000;

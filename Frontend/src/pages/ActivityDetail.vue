@@ -47,7 +47,7 @@ export default {
     async getEventDetails() {
       const eventId = this.$route.params.id;
       try {
-        const response = await this.$axios.get(`/api/events/${eventId}`);
+        const response = await this.$axios.get(`/events/${eventId}`);
         this.event = response.data;
         this.isRegistered = response.data.isRegistered;
       } catch (error) {
@@ -57,7 +57,7 @@ export default {
     async registerEvent() {
       try {
         const eventId = this.$route.params.id;
-        await this.$axios.post(`/api/events/${eventId}/register`);
+        await this.$axios.post(`/events/${eventId}/register`);
         this.isRegistered = true;
         this.$toast.success('成功報名活動！');
       } catch (error) {
@@ -67,7 +67,7 @@ export default {
     async cancelRegistration() {
       try {
         const eventId = this.$route.params.id;
-        await this.$axios.delete(`/api/events/${eventId}/unregister`);
+        await this.$axios.delete(`/events/${eventId}/unregister`);
         this.isRegistered = false;
         this.$toast.success('成功取消報名！');
       } catch (error) {

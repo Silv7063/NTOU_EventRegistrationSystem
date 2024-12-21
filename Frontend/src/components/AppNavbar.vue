@@ -5,7 +5,7 @@
         to="/"
         class="logo"
       >
-        NTOU Event
+        海大活動借用系統
       </router-link>
     </div>
     <div class="navbar-links">
@@ -13,116 +13,112 @@
         to="/"
         class="nav-link"
       >
-        Home
+        首頁
       </router-link>
       <router-link
         to="/events"
         class="nav-link"
       >
-        Events
+        活動
       </router-link>
       <router-link
         to="/about"
         class="nav-link"
       >
-        About
+        關於我們
       </router-link>
     </div>
     <div class="navbar-actions">
-      <button
-        class="btn btn-secondary"
-        @click="toggleLanguage"
-      >
-        {{ currentLanguage === 'en' ? '中文' : 'English' }}
-      </button>
       <router-link
         v-if="!isAuthenticated"
         to="/login"
         class="btn btn-primary"
       >
-        Login
+        登入
       </router-link>
       <button
         v-if="isAuthenticated"
         class="btn btn-danger"
         @click="logout"
       >
-        Logout
+        登出
       </button>
     </div>
   </nav>
 </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        currentLanguage: 'en',  // 預設語言
-        isAuthenticated: false  // 用於判斷是否已登入
-      };
+
+<script>
+export default {
+  data() {
+    return {
+      isAuthenticated: false, // 判斷是否已登入
+    };
+  },
+  methods: {
+    logout() {
+      // 登出邏輯
+      this.isAuthenticated = false;
+      this.$router.push('/login');
     },
-    methods: {
-      toggleLanguage() {
-        this.currentLanguage = this.currentLanguage === 'en' ? 'zh' : 'en';
-        this.$i18n.locale = this.currentLanguage;  // 切換語言，假設使用 vue-i18n
-      },
-      logout() {
-        // 登出邏輯
-        this.isAuthenticated = false;
-        this.$router.push('/login');
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #007bff;
-    padding: 10px 20px;
-    color: white;
-  }
-  
-  .navbar-logo .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .navbar-links {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .nav-link {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-  }
-  
-  .nav-link:hover {
-    text-decoration: underline;
-  }
-  
-  .navbar-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .btn {
-    padding: 8px 16px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: #003366;
-  }
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  padding: 10px 20px;
+  color: white;
+}
+
+.navbar-logo .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #003366;
+}
+
+.btn-primary {
+  background-color: #28a745;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+</style>
