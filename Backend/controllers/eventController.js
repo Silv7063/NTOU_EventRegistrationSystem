@@ -20,7 +20,6 @@ exports.createEvent = async (req, res) => {
 exports.getEvents = async () => {
   try {
     const events = await Event.find();
-    console.log('Fetched events:', events);
     if (!events || events.length === 0) {
       throw new Error('No events found');
     }

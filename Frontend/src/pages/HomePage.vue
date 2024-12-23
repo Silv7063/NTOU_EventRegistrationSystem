@@ -56,7 +56,7 @@ export default {
   methods: {
     async fetchEvents() {
       try {
-        const response = await this.$axios.get('/events');
+        const response = await this.$axios.get('events/all');
         this.events = response.data;
         this.filteredEvents = response.data;
       } catch (error) {
