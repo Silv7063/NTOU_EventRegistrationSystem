@@ -15,7 +15,7 @@ const registrationSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    status: {
+    state: {
         type: String,
         enum: ['registered', 'cancelled', 'attended'],
         default: 'registered',
@@ -26,4 +26,4 @@ const registrationSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Registration', registrationSchema);
+module.exports = mongoose.model('registration', registrationSchema);

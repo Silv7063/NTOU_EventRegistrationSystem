@@ -17,13 +17,17 @@ exports.createEvent = async (req, res) => {
 };
 
 // 查詢所有活動
-exports.getEvents = async (req, res) => {
+exports.getEvents = async () => {
   try {
     const events = await Event.find();
-    res.json(events); // 返回所有活動
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server error', error: err.message });
+    console.log('Fetched events:', events);
+    if (!events || events.length === 0) {
+      throw new Error('No events found');
+    }
+    return events;
+  } catch (error) {
+    console.error('Error fetching events:', error.message);
+    throw new Error('Failed to retrieve events');
   }
 };
 

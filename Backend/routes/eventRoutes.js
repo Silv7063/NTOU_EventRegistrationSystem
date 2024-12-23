@@ -5,12 +5,16 @@ const { authMiddleware } = require('../middlewares/authMiddleware');
 const { authorizeRole } = require('../middlewares/roleMiddleware');
 
 // 獲取所有活動
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
-    const events = await eventController.getEvents();
-    res.json(events); // 返回所有活動
+    const events = await eventController.getEvents(); // 確保這是有效數據
+    if (!events || events.length === 0) {  // 檢查 events 是否為空或未定義
+      return res.status(404).json({ message: 'No events found' });
+    }
+    res.json(events); // 返回活動列表
   } catch (error) {
-    res.status(500).json({ message: 'Failed to retrieve events', error: error.message });
+    console.error('Error fetching events:', error.message);
+    res.status(500).json({ message: 'Failed to retrieve events', details: error.message });
   }
 });
 
@@ -35,7 +39,7 @@ router.post('/:eventId/register', authMiddleware, async (req, res) => {
 });
 
 // 活動創建
-router.post('/', authMiddleware, authorizeRole(['admin', 'advanced']), async (req, res) => {
+router.post('/', /*authMiddleware, authorizeRole(['admin', 'advanced']), */async (req, res) => {
   try {
     const newEvent = await eventController.createEvent(req.body);
     res.status(201).json(newEvent); // 返回創建的活動資料
