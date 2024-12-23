@@ -29,35 +29,45 @@ exports.login = async (req, res) => {
 
 // 使用者註冊
 exports.register = async (req, res) => {
-  const { email, password, role = 'user', identity } = req.body;
+  const { username, email, password, role = 'user', identity } = req.body;
+
   try {
-    // 驗證身份
-    if (!['student', 'teacher', 'staff'].includes(identity)) {
+    const validIdentities = ['student', 'teacher', 'staff'];
+    if (!validIdentities.includes(identity)) {
       return res.status(400).json({ message: 'Invalid identity type' });
     }
 
-    // 檢查用戶是否已經存在
-    let user = await User.findOne({ email });
-    if (user) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // 註冊邏輯
-    user = new User({
+    const newUser = new User({
+      username: username,
       email,
       password: await bcrypt.hash(password, 10),
       role,
-      identity, // 根據傳入的身份（學生、教師、行政人員）
+      identity,
     });
 
-    await user.save();
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    await newUser.save();
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
 
-    res.status(201).json({ token });
+    res.status(201).json({
+      message: 'Registration successful',
+      token,
+      user: {
+        username: newUser.username,
+        email: newUser.email,
+        password:newUser.password,
+        role: newUser.role,
+        identity: newUser.identity,
+      },
+    });
   } catch (error) {
+    console.error('Error during registration:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
