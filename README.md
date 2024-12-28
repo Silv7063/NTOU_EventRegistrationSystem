@@ -1,3 +1,3 @@
 # NTOU_EventRegistrationSystem
-pnpm insatll
+pnpm install
 pnpm run dev
