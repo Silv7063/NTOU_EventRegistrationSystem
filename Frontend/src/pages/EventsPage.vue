@@ -1,5 +1,5 @@
 <template>
-  <div class="activity-detail">
+  <div class="events">
     <h1>{{ event.title }}</h1>
     <p>{{ event.description }}</p>
     <p><strong>時間：</strong>{{ formattedDate }}</p>
@@ -41,10 +41,10 @@ export default {
     }
   },
   mounted() {
-    this.getEventDetails();
+    this.getEvent();
   },
   methods: {
-    async getEventDetails() {
+    async getEvent() {
       const eventId = this.$route.params.id;
       try {
         const response = await this.$axios.get(`/events/${eventId}`);
@@ -79,17 +79,17 @@ export default {
 </script>
 
 <style scoped>
-.activity-detail {
+.events {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.activity-detail h1 {
+.events h1 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.activity-detail p {
+.events p {
   font-size: 16px;
   margin-bottom: 10px;
 }

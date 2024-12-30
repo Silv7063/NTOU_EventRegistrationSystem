@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     goToEventDetail() {
-      this.$router.push({ name: 'EventDetail', params: { id: this.event._id } });
+      this.$router.push({ path: `/${this.event._id}` });
     }
   }
 };
@@ -53,6 +53,7 @@ export default {
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
+  width: 100%; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 

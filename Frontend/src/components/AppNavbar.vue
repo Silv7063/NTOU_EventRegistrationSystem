@@ -19,13 +19,13 @@
         to="/events"
         class="nav-link"
       >
-        活動
+        查詢活動
       </router-link>
       <router-link
-        to="/about"
+        to="/user"
         class="nav-link"
       >
-        關於我們
+        個人資料
       </router-link>
     </div>
     <div class="navbar-actions">

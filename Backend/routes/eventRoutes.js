@@ -19,15 +19,21 @@ router.get('/all', async (req, res) => {
 });
 
 // 獲取單個活動詳細資料
-router.get('/:eventId', async (req, res) => {
+router.get('/get/:eventId', async (req, res) => {
+  // console.log(req.params);
+  // const { id } = req.params;
+  // console.log(id+" : "+req.params.eventId);
   try {
     const event = await eventController.getEventDetails(req.params.eventId);
-    res.json(event); // 返回活動詳細資料
-  } catch (error) {
-    res.status(404).json({ message: 'Event not found', error: error.message });
+    console.log(":"+event);
+    if (!event || event.msg) {
+      return res.status(404).json({ msg: 'Event not found'+" of "+ id});
+    }
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
   }
 });
-
 // 報名參加活動
 router.post('/:eventId/register', authMiddleware, async (req, res) => {
   try {
@@ -67,5 +73,18 @@ router.delete('/:eventId', authMiddleware, authorizeRole(['admin']), async (req,
     res.status(400).json({ message: 'Failed to delete event', error: error.message });
   }
 });
+
+router.get('/search/events', async (req, res) => {
+  const { keyword } = req.query;
+  console.log(keyword);
+  try {
+    const events = await eventController.queryEvents(keyword);
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ msg: err.message});
+  }
+});
+
+
 
 module.exports = router;

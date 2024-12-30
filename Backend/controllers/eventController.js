@@ -70,7 +70,7 @@ exports.registerForEvent = async (eventId, user, body) => {
 // 查看活動詳情
 exports.getEventDetails = async (eventId) => {
   try {
-    const event = await Event.findById(eventId).populate('participants');
+    const event = await Event.findById(eventId);
     if (!event) {
       return { msg: 'Event not found' };
     }
@@ -109,5 +109,26 @@ exports.deleteEvent = async (eventId) => {
   } catch (err) {
     console.error(err.message);
     return { msg: 'Server error' };
+  }
+};
+//瀏覽活動
+exports.queryEvents = async (keyword) => {
+  try {
+    const regex = new RegExp(keyword, 'i'); // 不區分大小寫的關鍵字
+    const events = await Event.find({
+      $or: [
+        { title: { $regex: regex } },
+        { description: { $regex: regex } },
+      ],
+    });
+
+    if (!events || events.length === 0) {
+      return { msg: 'No events found matching the keyword' };
+    }
+
+    return events;
+  } catch (err) {
+    console.error('Error querying events:', err.message);
+    throw new Error('Failed to query events');
   }
 };

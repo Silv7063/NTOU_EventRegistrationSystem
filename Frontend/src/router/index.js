@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useStore } from 'vuex'; // 假設使用 Vuex 來管理認證狀態
-
 import Home from '../pages/HomePage.vue';
-import ActivityDetail from '../pages/ActivityDetail.vue';
+import Event from '../pages/EventsPage.vue';
 import Login from '../pages/LoginPage.vue';
 import Register from '../pages/RegisterPage.vue';
 import UserDashboard from '../pages/UserDashboard.vue';
+import Search from '../pages/SearchEventPage.vue';
 
 const routes = [
   // 公共路由
@@ -15,9 +15,15 @@ const routes = [
     component: Home,
   },
   {
-    path: '/activity/:id',
-    name: 'ActivityDetail',
-    component: ActivityDetail,
+    path: '/events',
+    name: 'Search',
+    component: Search,
+    props: true,
+  },
+  {
+    path: '/get/:eventId',
+    name: 'Event',
+    component: Event,
     props: true,
   },
   // 認證相關路由

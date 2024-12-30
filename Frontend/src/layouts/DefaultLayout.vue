@@ -1,7 +1,7 @@
 <template>
   <div class="default-layout">
     <!-- 頂部導航列 -->
-    <Navbar />
+    <AppNavbar />
   
     <!-- 內容區域 -->
     <main>
@@ -9,39 +9,32 @@
     </main>
   
     <!-- 頁尾 -->
-    <footer>
-      <p>&copy; 2024 National Taiwan Ocean University</p>
-    </footer>
+    <AppFooter />
   </div>
 </template>
-  
-  <script>
-  import Navbar from '@/components/Navbar.vue';
-  
-  export default {
-    name: 'DefaultLayout',
-    components: {
-      Navbar,
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .default-layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  main {
-    flex: 1;
-    padding: 20px;
-  }
-  
-  footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #f1f1f1;
-  }
-  </style>
-  
+
+<script>
+import AppNavbar from '@/components/AppNavbar.vue';
+import AppFooter from '@/components/AppFooter.vue';
+
+export default {
+  name: 'DefaultLayout',
+  components: {
+    AppNavbar,
+    AppFooter,
+  },
+};
+</script>
+
+<style scoped>
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+</style>
