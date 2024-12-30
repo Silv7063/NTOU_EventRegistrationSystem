@@ -6,6 +6,7 @@ import Login from '../pages/LoginPage.vue';
 import Register from '../pages/RegisterPage.vue';
 import UserDashboard from '../pages/UserDashboard.vue';
 import Search from '../pages/SearchEventPage.vue';
+import EventForm from '../components/EventForm.vue';
 
 const routes = [
   // 公共路由

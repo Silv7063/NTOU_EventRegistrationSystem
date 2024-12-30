@@ -3,7 +3,9 @@
     <header class="header">
       <h1>歡迎來到海大活動報名系統</h1>
     </header>
-
+    <div class="event-form-container">
+      <EventForm />
+    </div>
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
       <p>載入中...</p>
@@ -37,10 +39,12 @@
 
 <script>
 import ActivityCard from '@/components/ActivityCard.vue';
+import EventForm from '../components/EventForm.vue';
 
 export default {
   components: {
-    ActivityCard
+    ActivityCard,
+    EventForm
   },
   data() {
     return {
@@ -147,8 +151,8 @@ export default {
 }
 
 .activity-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -161,5 +165,9 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.event-form-container {
+  margin: 4px 0;
+  text-align: left;
 }
 </style>

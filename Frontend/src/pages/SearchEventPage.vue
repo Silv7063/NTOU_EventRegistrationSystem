@@ -1,6 +1,8 @@
 <template>
     <div class="search-events">
-      <h1>查詢活動</h1>
+      <header class="header"> 
+        <h1>查詢活動</h1>
+      </header>  
       <input
         v-model="keyword"
         type="text"
@@ -70,15 +72,19 @@
   <style scoped>
   .search-events {
     margin: 0 auto;
+    padding: 20px;
     text-align: center;
   }
-  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
   input {
     width: 80%;
     padding: 10px;
     margin-bottom: 10px;
   }
-  
+
   button {
     padding: 10px 20px;
     background-color: #007bff;
@@ -86,34 +92,34 @@
     border: none;
     cursor: pointer;
   }
-  
+
   button:hover {
     background-color: #0056b3;
   }
-  
+
   .loading {
     color: #007bff;
   }
-  
+
   .error {
     color: red;
   }
-  
+
   .results {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;  /* 每行顯示一個活動 */
+    gap: 20px;
+    justify-content: center;  /* 居中顯示卡片 */
   }
-  
+
   .no-results {
     color: #777;
   }
 
   .activity-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
-    width: 80%;
   }
   </style>
   

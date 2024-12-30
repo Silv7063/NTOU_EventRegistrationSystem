@@ -3,42 +3,53 @@
     <h1>{{ event.title }}</h1>
     <p>{{ event.description }}</p>
     <p><strong>時間：</strong>{{ formattedDate }}</p>
-    <button
-      v-if="!isRegistered"
-      @click="registerEvent"
-    >
-      報名
-    </button>
-    <button
-      v-if="isRegistered"
-      @click="cancelRegistration"
-    >
-      取消報名
-    </button>
+    
+    <!-- 按鈕來創建活動 -->
+    <button @click="openCreateEventModal">創建活動</button>
+    
+    <!-- 按鈕來編輯活動 -->
+    <button v-if="eventId" @click="openEditEventModal(event)">編輯活動</button>
+    
+    <!-- 顯示 EventForm 組件 -->
+    <EventForm
+      v-if="showModal"
+      :event="event"
+      :eventId="eventId"
+      @close="closeModal"
+    />
+    
+    <button v-if="!isRegistered" @click="registerEvent">報名</button>
+    <button v-if="isRegistered" @click="cancelRegistration">取消報名</button>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import EventForm from '../components/EventForm.vue'; // 引入 EventForm 組件
 
 export default {
+  components: {
+    EventForm,
+  },
   data() {
     return {
       event: {},
-      isRegistered: false
+      isRegistered: false,
+      showModal: false, // 控制 EventForm 組件顯示
+      eventId: null, // 活動 ID，用於編輯
     };
   },
   computed: {
-    ...mapState(['user']), // 獲取用戶資料
+    ...mapState(['user']),
     formattedDate() {
       return new Date(this.event.date).toLocaleString('zh-TW', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       });
-    }
+    },
   },
   mounted() {
     this.getEvent();
@@ -46,14 +57,32 @@ export default {
   methods: {
     async getEvent() {
       const eventId = this.$route.params.id;
+      this.eventId = eventId; // 記錄活動 ID
       try {
         const response = await this.$axios.get(`/events/${eventId}`);
         this.event = response.data;
         this.isRegistered = response.data.isRegistered;
       } catch (error) {
-        this.$router.push('/not-found'); // 導向 404 頁面
+        this.$router.push('/not-found');
       }
     },
+    
+    // 打開創建活動模態框
+    openCreateEventModal() {
+      this.event = {}; // 清空現有的活動資料
+      this.showModal = true; // 顯示 EventForm 組件
+    },
+
+    // 打開編輯活動模態框
+    openEditEventModal(event) {
+      this.showModal = true; // 顯示 EventForm 組件
+    },
+
+    // 關閉 EventForm
+    closeModal() {
+      this.showModal = false;
+    },
+
     async registerEvent() {
       try {
         const eventId = this.$route.params.id;
@@ -64,6 +93,7 @@ export default {
         this.$toast.error('報名失敗，請稍後再試。');
       }
     },
+
     async cancelRegistration() {
       try {
         const eventId = this.$route.params.id;
@@ -73,8 +103,8 @@ export default {
       } catch (error) {
         this.$toast.error('取消報名失敗，請稍後再試。');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

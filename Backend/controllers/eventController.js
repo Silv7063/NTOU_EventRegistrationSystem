@@ -4,11 +4,13 @@ const User = require('../models/User');
 
 // 創建活動
 exports.createEvent = async (req, res) => {
-  const { title, description, date, location, participantLimit } = req.body;
-
+  
+  const { title, description, date, participantLimit, creator, location} = req;
   try {
-    const newEvent = new Event({ title, description, date, location, participantLimit });
+    const eventDate = new Date(new Date(date).getTime() - (new Date(date).getTimezoneOffset() * 60000));
+    const newEvent = new Event({ title, description, date:eventDate, participantLimit, state:"upcoming", creator, location, createdAt:Date.now()  });
     await newEvent.save();
+    console.log("save")
     return newEvent; // 返回創建的活動資料
   } catch (err) {
     console.error(err.message);

@@ -36,7 +36,7 @@ export default {
   computed: {
     formattedDate() {
       const date = new Date(this.event.date);
-      return date.toLocaleDateString();  // Adjust as needed
+      return date.toLocaleDateString('zh-TW');  
     }
   },
   methods: {
@@ -55,6 +55,8 @@ export default {
   margin-bottom: 20px;
   width: 100%; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  align-items: center;
 }
 
 .event-card-header {
@@ -103,4 +105,5 @@ export default {
 .btn:hover {
   background-color: #0056b3;
 }
+
 </style>

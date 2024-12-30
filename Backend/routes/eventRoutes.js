@@ -20,9 +20,6 @@ router.get('/all', async (req, res) => {
 
 // 獲取單個活動詳細資料
 router.get('/get/:eventId', async (req, res) => {
-  // console.log(req.params);
-  // const { id } = req.params;
-  // console.log(id+" : "+req.params.eventId);
   try {
     const event = await eventController.getEventDetails(req.params.eventId);
     console.log(":"+event);
@@ -45,7 +42,7 @@ router.post('/:eventId/register', authMiddleware, async (req, res) => {
 });
 
 // 活動創建
-router.post('/', /*authMiddleware, authorizeRole(['admin', 'advanced']), */async (req, res) => {
+router.post('/',/* authMiddleware, authorizeRole(['admin', 'advanced']),*/ async (req, res) => {
   try {
     const newEvent = await eventController.createEvent(req.body);
     res.status(201).json(newEvent); // 返回創建的活動資料

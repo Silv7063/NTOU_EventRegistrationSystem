@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const userRoutes = require('./routes/userRoutes');
 const { connectDB } = require('./config/db');
+const test = require('./test');
 
 dotenv.config();
 // 創建 Express 應用
@@ -17,7 +18,7 @@ app.use(cors({// 跨域資源共享（CORS）
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 })); 
 app.use(express.json());  // 解析 JSON 請求體
-
+app.use(express.urlencoded({ extended: true }));
 // 連接到 MongoDB 資料庫
 connectDB();
 
@@ -34,3 +35,4 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+test;
