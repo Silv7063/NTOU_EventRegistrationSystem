@@ -19,10 +19,9 @@ router.get('/all', async (req, res) => {
 });
 
 // 獲取單個活動詳細資料
-router.get('/get/:eventId', async (req, res) => {
+router.get('/:eventId', async (req, res) => {
   try {
     const event = await eventController.getEventDetails(req.params.eventId);
-    console.log(":"+event);
     if (!event || event.msg) {
       return res.status(404).json({ msg: 'Event not found'+" of "+ id});
     }
@@ -32,18 +31,28 @@ router.get('/get/:eventId', async (req, res) => {
   }
 });
 // 報名參加活動
-router.post('/:eventId/register', authMiddleware, async (req, res) => {
+router.post('/:eventId/register', async (req, res) => {
   try {
-    const registration = await eventController.registerForEvent(req.params.eventId, req.user, req.body);
-    res.status(201).json(registration); // 返回報名結果
+    const registration = await eventController.registerForEvent(req.params.eventId, req.body);
+    res.status(201).json(registration);
   } catch (error) {
     res.status(400).json({ message: 'Registration failed', error: error.message });
+  }
+});
+
+router.delete('/:eventId/unregister', async (req, res) => {
+  try {
+    const cancellation = await eventController.cancelRegistrationForEvent(req.params.eventId, req.body);
+    res.status(200).json(cancellation);
+  } catch (error) {
+    res.status(400).json({ message: 'Cancellation failed', error: error.message });
   }
 });
 
 // 活動創建
 router.post('/',/* authMiddleware, authorizeRole(['admin', 'advanced']),*/ async (req, res) => {
   try {
+    //console.log("load");
     const newEvent = await eventController.createEvent(req.body);
     res.status(201).json(newEvent); // 返回創建的活動資料
   } catch (error) {

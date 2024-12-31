@@ -8,9 +8,10 @@ exports.createEvent = async (req, res) => {
   const { title, description, date, participantLimit, creator, location} = req;
   try {
     const eventDate = new Date(new Date(date).getTime() - (new Date(date).getTimezoneOffset() * 60000));
+    //console.log("update");
     const newEvent = new Event({ title, description, date:eventDate, participantLimit, state:"upcoming", creator, location, createdAt:Date.now()  });
     await newEvent.save();
-    console.log("save")
+    //console.log("save");
     return newEvent; // 返回創建的活動資料
   } catch (err) {
     console.error(err.message);
@@ -33,8 +34,8 @@ exports.getEvents = async () => {
 };
 
 // 報名活動
-exports.registerForEvent = async (eventId, user, body) => {
-  const userId = user.id;
+exports.registerForEvent = async (eventId, user) => {
+  const userId = user.Id;
 
   try {
     const event = await Event.findById(eventId);
@@ -56,6 +57,7 @@ exports.registerForEvent = async (eventId, user, body) => {
     const registration = new Registration({
       user: userId,
       event: eventId,
+      state: "registered"
     });
 
     await registration.save();
@@ -63,6 +65,35 @@ exports.registerForEvent = async (eventId, user, body) => {
     await event.save();
 
     return { msg: 'Successfully registered for the event' };
+  } catch (err) {
+    console.error(err.message);
+    return { msg: 'Server error' };
+  }
+};
+
+exports.cancelRegistrationForEvent = async (eventId, user) => {
+  const userId = user.Id;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return { msg: 'Event not found' };
+    }
+
+    // 檢查用戶是否已報名過
+    const existingRegistration = await Registration.findOne({ user: userId, event: eventId });
+    if (!existingRegistration) {
+      return { msg: 'User is not registered for this event' };
+    }
+
+    // 刪除註冊紀錄
+    await Registration.findOneAndDelete({ user: userId, event: eventId });
+
+    // 從活動中移除用戶
+    event.participants = event.participants.filter(participantId => participantId.toString() !== userId.toString());
+    await event.save();
+
+    return { msg: 'Successfully cancelled the registration for the event' };
   } catch (err) {
     console.error(err.message);
     return { msg: 'Server error' };

@@ -107,38 +107,43 @@ export default {
         description: '',
         date: '',
         location: '',
-        capacity: 0,
-        userId: null,
+        participantLimit: 0,
+        creator: '',
       },
       formStatus: null, // 表單狀態訊息
     };
   },
   created() {
-    this.formData.userId = this.getUserId();
+    this.initializeCreator();
     if (this.eventId) {
       this.isEditMode = true;
       this.loadEventData();
     }
   },
   methods: {
-    getUserId() {
-      return localStorage.getItem('userId') || 'defaultUserId';
+    async initializeCreator() {
+      const userId = await this.getUserId();
+      this.formData.creator = userId;
     },
-
-    // 加載活動資料（編輯模式時）
-    async loadEventData() {
+    async getUserId() {
       try {
-        const response = await axios.get(`events/${this.eventId}`);
-        this.formData = response.data;
+        const response = await axios.get('/users/me', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`, 
+          },
+        });
+        console.log(response.data.Id);
+        return response.data.Id; 
       } catch (error) {
-        console.error('無法加載活動資料', error);
-        this.formStatus = { type: 'error', message: '無法加載活動資料。' };
+        console.error('無法取得使用者資訊', error);
+        return null; // 錯誤時回傳 null
       }
     },
 
     // 提交表單
     async handleSubmit() {
       this.isSubmitting = true;
+      console.log('提交的資料:', this.formData);
       try {
         if (this.isEditMode) {
           await axios.put(`/events/${this.eventId}`, this.formData);
@@ -147,12 +152,11 @@ export default {
           await axios.post('/events', this.formData);
           this.formStatus = { type: 'success', message: '活動創建成功！' };
         }
+        window.location.reload(); 
+        this.resetForm();
       } catch (error) {
         console.error('提交活動資料失敗', error);
-        this.formStatus = {
-          type: 'error',
-          message: error.response?.data?.message || '活動創建/更新失敗。',
-        };
+        console.error('錯誤詳細:', error.response?.data || '未知錯誤');
       } finally {
         this.isSubmitting = false;
         if (this.formStatus.type === 'success' && !this.isEditMode) {

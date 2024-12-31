@@ -1,7 +1,7 @@
-{	
+{
 	"scripts": {
 		"dev": "concurrently \"pnpm --prefix Frontend run dev\" \"pnpm --prefix Backend run dev\""
-	  },
+	},
 	"devDependencies": {
 		"concurrently": "^9.1.0"
 	}

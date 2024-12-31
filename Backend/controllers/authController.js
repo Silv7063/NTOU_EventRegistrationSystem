@@ -17,10 +17,9 @@ exports.login = async (req, res) => {
     }
 
     // 生成 JWT
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+    const token = jwt.sign({ Id: user._id, Name: user.username, Role: user.role, Identity:user.identity}, process.env.JWT_SECRET, {
+      expiresIn: '3h',
     });
-
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -51,7 +50,7 @@ exports.register = async (req, res) => {
     });
 
     await newUser.save();
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ Id: newUser._id, Name: newUser.username, Role: newUser.role, Identity:newUser.identity}, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
 

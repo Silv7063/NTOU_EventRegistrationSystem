@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     goToEventDetail() {
-      this.$router.push({ path: `/${this.event._id}` });
+      this.$router.push({ path: `event/${this.event._id}` });
     }
   }
 };

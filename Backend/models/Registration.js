@@ -6,24 +6,18 @@ const registrationSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+
     event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
         required: true,
     },
-    registrationDate: {
-        type: Date,
-        default: Date.now,
-    },
+
     state: {
         type: String,
         enum: ['registered', 'cancelled', 'attended'],
         default: 'registered',
-    },
-    isWaitlisted: {
-        type: Boolean,
-        default: false,
-    },
+    }
 });
 
 module.exports = mongoose.model('registration', registrationSchema);

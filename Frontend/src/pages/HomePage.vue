@@ -1,10 +1,12 @@
+// Home.vue
+
 <template>
   <div class="home">
     <header class="header">
       <h1>歡迎來到海大活動報名系統</h1>
     </header>
     <div class="event-form-container">
-      <EventForm />
+      <EventForm @event-created="fetchEvents" /> <!-- 監聽 event-created 事件 -->
     </div>
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
