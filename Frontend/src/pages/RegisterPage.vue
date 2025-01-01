@@ -5,7 +5,7 @@
       <div class="form-group">
         <label for="name">名稱</label>
         <input
-          v-model="name"
+          v-model="username"
           type="text"
           required
           placeholder="請輸入名稱"
@@ -62,7 +62,7 @@
 export default {
   data() {
     return {
-      name: '',
+      username: '',
       email: '',
       password: '',
       role: 'user',  // You can modify this if needed
@@ -79,7 +79,7 @@ export default {
       this.successMessage = '';
       try {
         const response = await this.$axios.post('http://localhost:4000/auth/register', {
-          name: this.name,
+          username: this.username,
           email: this.email,
           password: this.password,
           role: this.role,

@@ -1,13 +1,11 @@
 // Home.vue
 
 <template>
-  <div class="home">
-    <header class="header">
-      <h1>歡迎來到海大活動報名系統</h1>
-    </header>
-    <div class="event-form-container">
-      <EventForm @event-created="fetchEvents" /> <!-- 監聽 event-created 事件 -->
+  <div class="banner">
+    <div class="banner_image">
     </div>
+  </div>
+  <div class="home">
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
       <p>載入中...</p>
@@ -15,13 +13,18 @@
 
     <div v-else>
       <section class="filters">
-        <label for="filter">篩選活動類型：</label>
-        <select id="filter" v-model="filter" @change="applyFilter">
-          <option value="">全部</option>
-          <option value="學術">學術</option>
-          <option value="運動">運動</option>
-          <option value="娛樂">娛樂</option>
-        </select>
+        <div class="filters-and-form">
+          <div class="event-form-container">
+      <EventForm @event-created="fetchEvents" /> <!-- 監聽 event-created 事件 -->
+    </div>
+          <label for="filter">篩選活動類型：</label>
+          <select id="filter" v-model="filter" @change="applyFilter">
+            <option value="">全部</option>
+           <option value="學術">學術</option>
+           <option value="運動">運動</option>
+           <option value="娛樂">娛樂</option>
+          </select>
+        </div>
       </section>
 
       <section v-if="filteredEvents.length" class="activity-list">
@@ -92,15 +95,20 @@ export default {
   background-color: #f9fafc;
   min-height: 100vh;
 }
-
-.header {
-  text-align: center;
-  margin-bottom: 20px;
+.banner{
+  height: 220px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  padding-top: 0px;
+  background-color: #025cbd;
 }
-
-.header h1 {
-  font-size: 24px;
-  color: #2c3e50;
+.banner_image {
+  background-image: url('@/assets/banner-background.jpg');
+  background-size: cover;
+  background-position: 50% 75%;
+  height: 220px;
+  width: 100%;
 }
 
 .loading {
@@ -112,7 +120,12 @@ export default {
   font-size: 18px;
   color: #555;
 }
-
+.filters-and-form {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: 150px;
+}
 .spinner {
   width: 40px;
   height: 40px;
@@ -130,14 +143,9 @@ export default {
 }
 
 .filters {
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filters label {
