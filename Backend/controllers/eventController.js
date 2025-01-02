@@ -37,7 +37,7 @@ exports.getEvents = async () => {
 
 // 報名活動
 exports.registerForEvent = async (eventId, user) => {
-  const userId = user.Id;
+  const userId = user._id;
 
   try {
     const event = await Event.findById(eventId);
@@ -74,7 +74,7 @@ exports.registerForEvent = async (eventId, user) => {
 };
 
 exports.cancelRegistrationForEvent = async (eventId, user) => {
-  const userId = user.Id;
+  const userId = user._id;
 
   try {
     const event = await Event.findById(eventId);

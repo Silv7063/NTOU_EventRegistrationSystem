@@ -105,11 +105,7 @@ export default {
     async cancelRegistration(targetEvent) {
       try {
         const token = localStorage.getItem('authToken');
-        await this.$axios.delete(`/participants/${targetEvent._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await this.$axios.delete(`/events/${targetEvent.event}/unregister`, { data: this.user });
         alert('刪除活動成功')
         await this.fetchUserEvents(token);
       } catch (error) {

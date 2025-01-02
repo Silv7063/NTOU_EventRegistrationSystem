@@ -7,7 +7,7 @@
 
       <!-- 顯示人數上限和創建者名字 -->
       <p><strong>人數上限：</strong>{{ event.participantLimit }}</p>
-      <p><strong>創建者：</strong>{{ getUserName(event.creator) }}</p>
+      <p><strong>創建者：</strong>{{ event.creator}}</p>
 
       <div class="buttons">
         <button v-if="!isRegistered" @click="registerEvent" class="register-button">報名</button>
@@ -83,7 +83,7 @@ export default {
       if (this.user) {
         this.fetchEventData();
       }
-      console.log({Id: this.user.Id });
+      console.log({Id: this.user._id });
       
     });
   },
@@ -96,21 +96,7 @@ export default {
           },
         });
         this.user = response.data;
-        this.isAdmin = this.user.Role === 'admin';
-      } catch (error) {
-        console.error('無法取得使用者資訊', error);
-        return null;
-      }
-    },
-    async getUserName(userId) {
-      try {
-        const response = await this.$axios.get(`users/get/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        });
-        console.log(response.data);
-        return response.data.username;
+        this.isAdmin = this.user.role === 'admin';
       } catch (error) {
         console.error('無法取得使用者資訊', error);
         return null;
@@ -124,8 +110,8 @@ export default {
         const response = await this.$axios.get(`/events/${eventId}`);
         this.event = response.data;
         const participants = response.data.participants;
-        this.isRegistered = participants.includes(this.user.Id);
-        this.canEditEvent = this.user.Id === this.event.creator || this.isAdmin;
+        this.isRegistered = participants.includes(this.user._id);
+        this.canEditEvent = this.user._id === this.event.creator || this.isAdmin;
       } catch (error) {
         this.$router.push('/not-found');
       } finally {

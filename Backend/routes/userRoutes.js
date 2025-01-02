@@ -26,6 +26,15 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
 });
 
+// 獲取指定使用者資料
+router.get('/get/:userId', authenticateToken, async(req, res) => {
+  try {
+    const getUser = await userController.getUser(req.params.userId);
+    res.status(200).json(getUser); // 返回更新後的使用者資料
+  } catch (error) {
+    res.status(400).json({ message: 'Failed to get user', error: error.message });
+  }
+});
 // 獲取所有使用者（系統管理員權限）
 router.get('/', authMiddleware, authorizeRole(['admin']), userController.getAllUsers);
 
