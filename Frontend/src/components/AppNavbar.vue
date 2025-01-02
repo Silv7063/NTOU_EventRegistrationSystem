@@ -31,7 +31,7 @@
       </router-link>
       <router-link
         v-if="isAuthenticated"
-        to="/user/dashboard/dashboard"
+        to="/user/dashboard"
         class="nav-link"
       >
         個人資料
