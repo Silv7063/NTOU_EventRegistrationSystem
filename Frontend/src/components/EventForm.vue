@@ -176,7 +176,7 @@ export default {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         });
-        return response.data.Id;
+        return response.data._id;
       } catch (error) {
         console.error('無法取得使用者資訊', error);
         return null;
