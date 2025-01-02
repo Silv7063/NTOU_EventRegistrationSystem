@@ -64,10 +64,13 @@ export default {
         });
 
         // 登入成功，跳轉至使用者儀表板
-        if (response.data.token) {
-          localStorage.setItem('authToken', response.data.token); // 保存 token
-          this.$router.push('/dashboard');
-        }
+        localStorage.setItem('authToken', response.data.token);
+
+        // 設定 Vuex 的登入狀態
+        const user = { email: this.email }; // 可從 API 返回的資料中提取更多信息
+        this.$store.dispatch('login', user);
+        // 跳轉到儀表板
+        this.$router.push('/user/dashboard');
       } catch (error) {
         // 如果有錯誤，顯示錯誤訊息
         this.error = error.response?.data?.message || '登入失敗，請檢查您的電子郵件或密碼。';

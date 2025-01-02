@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // 獲取所有用戶資料
 exports.getAllUsers = async (req, res) => {
@@ -12,17 +14,27 @@ exports.getAllUsers = async (req, res) => {
 
 // 獲取單個用戶資料
 exports.getUserProfile = async (req, res) => {
-    const { userId } = req.params;  // 從路由參數中提取 userId
+    
     try {
-        const user = await User.findById(userId).select('-password');
+        // 從 JWT 解碼過來的 userId
+        const token = req.headers['authorization']?.split(' ')[1];  // 提取 token
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = new mongoose.Types.ObjectId(decoded.userId);  // 假設這是從前面的驗證中提取出來的
+
+        const user = await User.findById(userId).select('-password'); // 用解碼後的 userId 查詢
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.json(user);  // 返回用戶資料
+        return user;  // 返回用戶資料
     } catch (err) {
-        res.status(500).json({ message: 'Failed to retrieve user profile' });
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 // 獲取指定用戶資料
 exports.getUser = async (req, res) => {

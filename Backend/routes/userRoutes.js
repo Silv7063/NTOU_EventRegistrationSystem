@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const userController = require('../controllers/userController');
+const eventController = require('../controllers/eventController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { authorizeRole } = require('../middlewares/roleMiddleware');
 
@@ -17,22 +18,11 @@ const authenticateToken = (req, res, next) => {
 };
 
 // 獲取當前使用者資料
-router.get('/me', authenticateToken, (req, res) => {
-  res.json({
-    Id: req.user.Id,
-    Name: req.user.Name,
-    Role: req.user.Role,
-    Identity: req.user.Identity
-  });
-});
-
-// 獲取指定使用者資料
-router.get('/get/:userId', authenticateToken, async(req, res) => {
+router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const getUser = await userController.getUser(req.params.userId);
-    res.status(200).json(getUser); // 返回更新後的使用者資料
+    res.status(200).json(await userController.getUserProfile(req));
   } catch (error) {
-    res.status(400).json({ message: 'Failed to get user', error: error.message });
+    res.status(500).json({ message: 'Failed to retrieve user profile', error: error.message });
   }
 });
 

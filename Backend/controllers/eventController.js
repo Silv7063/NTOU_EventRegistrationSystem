@@ -1,6 +1,8 @@
 const Event = require('../models/Event');
 const Registration = require('../models/Registration');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // 創建活動
 exports.createEvent = async (req, res) => {
