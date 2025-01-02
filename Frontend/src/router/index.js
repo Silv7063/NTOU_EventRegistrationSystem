@@ -65,7 +65,7 @@ const router = createRouter({
 // 登入驗證導航守衛
 router.beforeEach((to, from, next) => {
   const store = useStore(); // 使用 Vuex 來取得認證狀態
-  const isAuthenticated = store.state.isAuthenticated; // 根據你的 store 結構來調整
+  const isAuthenticated = store.state.auth.isAuthenticated; // 根據你的 store 結構來調整
 
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
     next({ name: 'Login' }); // 如果需要登入才能訪問此頁，且尚未登入，跳轉到登入頁

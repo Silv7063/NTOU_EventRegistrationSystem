@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const userRoutes = require('./routes/userRoutes');
+const participantsRoutes = require('./routes/participantsRoutes');
 const { connectDB } = require('./config/db');
 const test = require('./test');
 
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/users', userRoutes);
+app.use('/participants', participantsRoutes);
 
 // 啟動伺服器
 const PORT = process.env.PORT || 4000;

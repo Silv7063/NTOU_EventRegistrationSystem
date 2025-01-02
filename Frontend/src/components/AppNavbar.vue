@@ -30,7 +30,8 @@
         活動紀錄
       </router-link>
       <router-link
-        to="/user/dashboard"
+        v-if="isAuthenticated"
+        to="/user/dashboard/dashboard"
         class="nav-link"
       >
         個人資料
@@ -48,7 +49,7 @@
       <button
         v-if="isAuthenticated"
         class="btn btn-danger"
-        @click="logout"
+        @click="logout2"
       >
         登出
       </button>
@@ -57,17 +58,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
-  data() {
-    return {
-      isAuthenticated: false, // 判斷是否已登入
-    };
+  computed: {
+    ...mapGetters(['isAuthenticated'])
   },
   methods: {
-    logout() {
+    ...mapActions(['logout']),
+    async logout2() {
       // 登出邏輯
-      this.isAuthenticated = false;
-      this.$router.push('/login');
+      await this.logout();
+      this.$router.push('/login'); // 登出後跳轉到首頁
     },
   },
 };

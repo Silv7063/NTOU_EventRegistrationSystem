@@ -19,6 +19,7 @@ const authMiddleware = async (req, res, next) => {
         
         // 查詢該 token 的用戶
         const user = await User.findById(decoded.userId);
+
         if (!user) {
             throw new Error('User not found');
         }
