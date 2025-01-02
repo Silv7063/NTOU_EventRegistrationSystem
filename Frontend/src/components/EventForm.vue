@@ -3,7 +3,7 @@
     <!-- Modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
-        <button class="close-btn" @click="showModal = false">&times;</button>
+        <button type="button" class="close-btn" @click="closeModal">&times;</button>
         <div class="event-form">
           <h2>{{ isEditMode ? '編輯活動' : '創建活動' }}</h2>
           <form @submit.prevent="handleSubmit">
