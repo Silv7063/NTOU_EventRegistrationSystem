@@ -86,9 +86,9 @@ export default {
           identity: this.identity,
         });
 
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
           this.successMessage = '註冊成功，請前往登入頁面。';
-          setTimeout(() => this.$router.push('/'), 2000);
+          setTimeout(() => this.$router.push('/login'), 2000);
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || '註冊失敗，請稍後再試';

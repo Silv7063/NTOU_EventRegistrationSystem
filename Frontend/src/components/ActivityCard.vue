@@ -50,11 +50,13 @@ export default {
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  width: 100%; 
+  width: 80%; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   align-items: center;
-  background-color: #e5f7fc;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
 }
 
 .event-card-header {
