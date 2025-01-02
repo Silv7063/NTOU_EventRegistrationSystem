@@ -3,7 +3,7 @@
     <h1>註冊</h1>
     <form @submit.prevent="register" class="register-form">
       <div class="form-group">
-        <label for="name">名稱</label>
+        <label for="username">名稱</label>
         <input
           v-model="username"
           type="text"
@@ -88,7 +88,7 @@ export default {
 
         if (response.status === 200) {
           this.successMessage = '註冊成功，請前往登入頁面。';
-          setTimeout(() => this.$router.push('/login'), 2000); // 跳轉至登入頁
+          setTimeout(() => this.$router.push('/'), 2000);
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || '註冊失敗，請稍後再試';

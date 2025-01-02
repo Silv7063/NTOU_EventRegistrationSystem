@@ -24,6 +24,19 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
+// 獲取指定用戶資料
+exports.getUser = async (req, res) => {
+    try {
+        const user = await User.findById(req);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return user;  // 返回用戶資料
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to get user' });
+    }
+};
+
 // 更新用戶資料
 exports.updateUserProfile = async (req, res) => {
     const { userId } = req.params;  // 從路由參數中提取 userId

@@ -6,6 +6,7 @@ import Login from '../pages/LoginPage.vue';
 import Register from '../pages/RegisterPage.vue';
 import UserDashboard from '../pages/UserDashboard.vue';
 import Search from '../pages/SearchEventPage.vue';
+import History from '../pages/EventsHistory.vue';
 
 const routes = [
   // 公共路由
@@ -21,12 +22,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/event/:id/History',
+    name: 'History',
+    component: History,
+    props: true,
+  },
+  {
     path: '/event/:id',
     name: 'Event',
     component: Event,
     props: true,
   },
-  // 認證相關路由
   {
     path: '/login',
     name: 'Login',

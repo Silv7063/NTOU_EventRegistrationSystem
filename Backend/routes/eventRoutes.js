@@ -50,7 +50,7 @@ router.delete('/:eventId/unregister', async (req, res) => {
 });
 
 // 活動創建
-router.post('/',/* authMiddleware, authorizeRole(['admin', 'advanced']),*/ async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     //console.log("load");
     const newEvent = await eventController.createEvent(req.body);
@@ -61,7 +61,7 @@ router.post('/',/* authMiddleware, authorizeRole(['admin', 'advanced']),*/ async
 });
 
 // 活動更新
-router.put('/:eventId', authMiddleware, authorizeRole(['admin', 'advanced']), async (req, res) => {
+router.put('/:eventId', async (req, res) => {
   try {
     const updatedEvent = await eventController.updateEvent(req.params.eventId, req.body);
     res.json(updatedEvent); // 返回更新後的活動資料
@@ -71,7 +71,7 @@ router.put('/:eventId', authMiddleware, authorizeRole(['admin', 'advanced']), as
 });
 
 // 活動刪除
-router.delete('/:eventId', authMiddleware, authorizeRole(['admin']), async (req, res) => {
+router.delete('/:eventId', async (req, res) => {
   try {
     await eventController.deleteEvent(req.params.eventId);
     res.status(204).send(); // 刪除成功，無內容返回
