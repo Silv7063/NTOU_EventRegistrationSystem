@@ -29,6 +29,15 @@
             placeholder="輸入新密碼"
           />
         </div>
+        <div class="form-group">
+          <label for="password">確認密碼</label>
+          <input
+            id="password"
+            type="password"
+            v-model="formData.doubleCheck"
+            placeholder="輸入新密碼"
+          />
+        </div>
         <button type="submit" class="save-button">儲存更改</button>
       </form>
     </div>
@@ -48,6 +57,7 @@
           username: this.user.username || '',
           email: this.user.email || '',
           password: '',
+          doubleCheck: '',
         },
       };
     },
@@ -58,20 +68,30 @@
           alert('請確保所有欄位都已填寫');
           return;
         }
+
+        if (this.formData.password != this.formData.doubleCheck) {
+          alert('請確保密碼一致');
+          return;
+        }
   
         try {
+          const form = {
+            username: this.formData.username,
+            email: this.formData.email,
+            password: this.formData.password,
+          }
           const token = localStorage.getItem('authToken');
-          console.log(this.formData);
+          console.log("form: ", form);
           await this.$axios.put(
             '/users/updateProfile',
-            { ...this.formData },
+             form ,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             }
           );
-          this.$toast.success('個人資料已成功更新');
+          alert('個人資料更新成功');
           this.$emit('profileUpdated'); // 通知父組件更新資料
         } catch (error) {
           this.$toast.error('更新個人資料失敗');

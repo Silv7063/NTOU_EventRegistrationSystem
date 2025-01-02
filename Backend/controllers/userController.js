@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // 獲取所有用戶資料
 exports.getAllUsers = async (req, res) => {
@@ -27,7 +28,6 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-
 // 獲取指定用戶資料
 exports.getUser = async (req, res) => {
     try {
@@ -43,26 +43,24 @@ exports.getUser = async (req, res) => {
 
 // 更新用戶資料
 exports.updateUserProfile = async (req, res) => {
-    const { userId } = req.params;  // 從路由參數中提取 userId
-    const { username, email } = req.body;  // 從請求正文中提取更新的資料
+    //console.log(req.body)  // 從路由參數中提取 userId
+    const { username, email, password } = req.body;  // 從請求正文中提取更新的資料
 
-    // 驗證必填欄位
-    if (!username || !email) {
-        return res.status(400).json({ message: 'Please provide all required fields' });
-    }
-
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(decoded.Id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
         // 更新資料
         user.username = username;
         user.email = email;
+        user.password = await bcrypt.hash(password, 10);
 
         await user.save();
-        res.json(user);  // 返回更新後的用戶資料
+        console.log("user", user);
+        return user;  // 返回更新後的用戶資料
     } catch (err) {
         res.status(500).json({ message: 'Failed to update user profile' });
     }

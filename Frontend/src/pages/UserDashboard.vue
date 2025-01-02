@@ -1,7 +1,6 @@
 <template>
   <div class="user-dashboard">
     <div v-if="loading" class="loading-container">
-
       <p>加載中...</p>
     </div>
     <div v-else-if="user" class="user-info">
@@ -24,20 +23,23 @@
 
       <div class="event-section">
         <h3>已報名的活動</h3>
-        <ul class="event-list">
-          <li
-            v-for="event in userEvents"
-            :key="event._id"
-            class="event-item"
-          >
-            <span class="event-title">活動 ID：{{ event.event }}</span>
-            <span class="event-state">狀態：{{ event.state }}</span>
-            <span class="event-date">報名日期：{{ new Date(event.registrationDate).toLocaleDateString() }}</span>
-            <button @click="cancelRegistration(event)" class="cancel-button">
-              取消報名
-            </button>
-          </li>
-        </ul>
+        <template v-if="userEvents.length">
+          <ul class="event-list">
+            <li
+              v-for="event in userEvents"
+              :key="event._id"
+              class="event-item"
+            >
+              <span class="event-title">活動 ID：{{ event.event }}</span>
+              <span class="event-state">狀態：{{ event.state }}</span>
+              <span class="event-date">報名日期：{{ new Date(event.registrationDate).toLocaleDateString() }}</span>
+              <button @click="cancelRegistration(event)" class="cancel-button">
+                取消報名
+              </button>
+            </li>
+          </ul>
+        </template>
+        <p v-else class="no-events-message">尚未參加任何活動。</p>
       </div>
     </div>
     <div v-else class="error-message">
@@ -98,8 +100,8 @@ export default {
           },
         });
         this.userEvents = response.data;
-      } catch (error) {
-        this.$toast.error('無法加載使用者活動資料');
+      } catch {
+        this.userEvents = []; // 如果發生錯誤，設置為空陣列
       }
     },
     async cancelRegistration(targetEvent) {
@@ -125,6 +127,7 @@ export default {
 </script>
 
 <style scoped>
+
 .user-dashboard {
   font-family: Arial, sans-serif;
   max-width: 800px;
