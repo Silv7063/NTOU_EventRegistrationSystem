@@ -128,6 +128,10 @@ export default {
     },
     // 報名活動
     async registerEvent() {
+      if(!this.user.role){
+        alert('請先登入在報名');
+        return;
+      }
       try {
         const eventId = this.$route.params.id;
         await this.$axios.post(`/events/${eventId}/register`, this.user);
