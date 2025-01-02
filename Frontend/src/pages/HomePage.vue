@@ -4,25 +4,31 @@
     </div>
   </div>
   <div class="home">
+    <div class="event-form-container">
+      <button class="create-event-btn" @click="showModal = true">創建活動</button>
+      
+      <label>
+        <input type="checkbox" v-model="showPastEvents" />
+        顯示過去的活動
+      </label>
 
+      <EventForm
+        v-if="showModal"
+        v-model:showModal="showModal"
+        :formData="formData"
+        @event-created="fetchEvents"
+      />
+    </div>
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
       <p>載入中...</p>
     </div>
-
     <div v-else>
       <section class="filters">
         <div class="filters-and-form">
           <div class="event-form-container">
-      <EventForm @event-created="fetchEvents" /> <!-- 監聽 event-created 事件 -->
-    </div>
-          <label for="filter">篩選活動類型：</label>
-          <select id="filter" v-model="filter" @change="applyFilter">
-            <option value="">全部</option>
-           <option value="學術">學術</option>
-           <option value="運動">運動</option>
-           <option value="娛樂">娛樂</option>
-          </select>
+            <EventForm @event-created="fetchEvents" />
+          </div>
         </div>
       </section>
       <section v-if="filteredEvents.length" class="activity-list">
@@ -225,5 +231,6 @@ export default {
 /* 確保按鈕父容器的子元素向左對齊 */
 .event-form-container {
   text-align: left; /* 父容器文字向左對齊 */
+  padding-left: 140px;
 }
 </style>

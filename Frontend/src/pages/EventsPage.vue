@@ -7,7 +7,7 @@
 
       <!-- 顯示人數上限和創建者名字 -->
       <p><strong>人數上限：</strong>{{ event.participantLimit }}</p>
-      <p><strong>創建者：</strong>{{ user.Name }}</p>
+      <p><strong>創建者：</strong>{{ getUserName(event.creator) }}</p>
 
       <div class="buttons">
         <button v-if="!isRegistered" @click="registerEvent" class="register-button">報名</button>
@@ -79,7 +79,7 @@ export default {
     },
   },
   mounted() {
-    this.getUser().then(() => {
+    this.getMe().then(() => {
       if (this.user) {
         this.fetchEventData();
       }
@@ -88,7 +88,7 @@ export default {
     });
   },
   methods: {
-    async getUser() {
+    async getMe() {
       try {
         const response = await axios.get('/users/me', {
           headers: {
@@ -97,6 +97,20 @@ export default {
         });
         this.user = response.data;
         this.isAdmin = this.user.Role === 'admin';
+      } catch (error) {
+        console.error('無法取得使用者資訊', error);
+        return null;
+      }
+    },
+    async getUserName(userId) {
+      try {
+        const response = await this.$axios.get(`users/get/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+        console.log(response.data);
+        return response.data.username;
       } catch (error) {
         console.error('無法取得使用者資訊', error);
         return null;
