@@ -9,7 +9,7 @@
       </p>
   
       <!-- 假設有個子元件 ActivitiesTable -->
-      <ActivitiesTable :activities="activitiesList" />
+      <ActivitiesTable :events="events" />
   
       <!-- 
         按鈕：按一次暫停、再按一次繼續變色。 
@@ -22,7 +22,7 @@
   </template>
   
   <script>
-  import ActivitiesTable from "@/components/ActivitiesTable.vue";
+  import ActivitiesTable from "../components/ActivitiesTable.vue";
   
   export default {
     name: "EventsHistory",
@@ -33,17 +33,13 @@
       return {
         currentColor: "#ffffff", // 預設背景白色
         colorTimer: null,        // 用來記錄 setInterval 的計時器 ID (若為 null，代表目前不在變色)
-        activitiesList: [      //假資料，之後要修改成對到前端的狀態
-          { name: "活動 A", expected: 100, actual: 80 },
-          { name: "活動 B", expected: 50, actual: 40 },
-          { name: "活動 C", expected: 120, actual: 110 },
-          { name: "活動 D", expected: 200, actual: 140 },
-        ],
+        events: [],
       };
     },
     mounted() {
+      this.fetchEvents();
       // 進入此頁面後，每隔 0.5 秒隨機換一次背景顏色
-      this.startColorChange();
+      //this.startColorChange();
     },
     beforeUnmount() {
       // 離開頁面前，若計時器存在則清除
@@ -52,6 +48,16 @@
       }
     },
     methods: {
+      async fetchEvents() {
+      try {
+        const response = await this.$axios.get('/events/all');
+        this.events = response.data;
+      } catch (error) {
+        console.error('API 錯誤:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
       // 隨機更換背景顏色
       changeColor() {
         const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);

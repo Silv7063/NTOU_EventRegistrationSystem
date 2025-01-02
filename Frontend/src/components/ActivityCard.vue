@@ -15,11 +15,8 @@
       </p>
     </div>
     <div class="event-card-footer">
-      <button
-        class="btn btn-primary"
-        @click="goToEventDetail"
-      >
-        View Details
+      <button class="btn btn-primary" @click="goToEventDetail">
+        查看
       </button>
     </div>
   </div>
@@ -57,6 +54,7 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   align-items: center;
+  background-color: #e5f7fc;
 }
 
 .event-card-header {
@@ -65,12 +63,12 @@ export default {
 }
 
 .event-title {
-  font-size: 18px;
+  font-size: 24px;  /* 放大標題字體大小 */
   font-weight: bold;
 }
 
 .event-date {
-  font-size: 14px;
+  font-size: 16px;  /* 放大日期字體大小 */
   color: #555;
 }
 

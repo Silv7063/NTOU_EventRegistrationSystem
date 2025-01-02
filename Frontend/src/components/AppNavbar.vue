@@ -21,12 +21,20 @@
       >
         查詢活動
       </router-link>
+      <!-- New link for event history page -->
+      <router-link
+        to="/event/:id/History"
+        class="nav-link"
+      >
+        活動紀錄
+      </router-link>
       <router-link
         to="/user"
         class="nav-link"
       >
         個人資料
       </router-link>
+      
     </div>
     <div class="navbar-actions">
       <router-link

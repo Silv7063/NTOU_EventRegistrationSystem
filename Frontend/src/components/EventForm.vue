@@ -1,10 +1,7 @@
 <template>
   <div>
-    <!-- Button to open the modal -->
-    <button class="create-event-btn" @click="showModal = true">創建活動</button>
-
     <!-- Modal -->
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
+    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
         <div class="event-form">
           <h2>{{ isEditMode ? '編輯活動' : '創建活動' }}</h2>
@@ -55,7 +52,7 @@
               <label for="capacity">報名人數上限</label>
               <input
                 id="capacity"
-                v-model.number="formData.capacity"
+                v-model.number="formData.participantLimit"
                 type="number"
                 min="1"
                 placeholder="請輸入報名人數上限"
@@ -94,12 +91,19 @@ export default {
   props: {
     event: {
       type: Object,
+      required: false, // 當不傳入 event 時，會以創建模式運行
+    },
+    eventId: {
+      type: String,
       required: true
-    }
+    },
+    showModal: {
+      type: Boolean,
+      required: true
+    },
   },
   data() {
     return {
-      showModal: false, // 控制彈出式視窗的顯示
       isEditMode: false, // 是否為編輯模式
       isSubmitting: false, // 提交表單時禁用按鈕
       formData: {
@@ -113,14 +117,53 @@ export default {
       formStatus: null, // 表單狀態訊息
     };
   },
-  created() {
-    this.initializeCreator();
-    if (this.eventId) {
-      this.isEditMode = true;
-      this.loadEventData();
+  watch: {
+    showModal(newValue) {
+    console.log(newValue);
+    if (newValue) {
+      this.loadEventDataIfNeeded();
+    } else {
+      this.resetForm();
     }
   },
+    event(newEvent) {
+      if (newEvent && newEvent.id) {
+        this.isEditMode = true;
+        this.loadEventData(newEvent.id);
+      }
+    },
+  },
+  created() {
+    if (this.event && this.event._id) {
+    this.isEditMode = true;
+    this.loadEventData(this.event._id);
+  } else {
+    this.isEditMode = false; 
+    this.initializeCreator();
+  }
+  },
   methods: {
+    async loadEventDataIfNeeded() {
+      if (this.isEditMode && this.eventId) {
+        await this.loadEventData(this.eventId);
+      }
+    },
+    // 載入事件資料
+    async loadEventData(eventId) {
+      try {
+        const response = await axios.get(`/events/${eventId}`);
+        this.formData = { ...response.data };
+        if (this.formData.date) {
+          this.formData.date = new Date(this.formData.date).toISOString().slice(0, 16);
+        }
+        if (!this.formData.creator) {
+          this.formData.creator = await this.getUserId();
+        }
+      } catch (error) {
+        console.error('無法載入活動資料', error);
+      }
+    },
+    // 初始化創建者 ID
     async initializeCreator() {
       const userId = await this.getUserId();
       this.formData.creator = userId;
@@ -129,42 +172,58 @@ export default {
       try {
         const response = await axios.get('/users/me', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`, 
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         });
-        console.log(response.data.Id);
-        return response.data.Id; 
+        return response.data.Id;
       } catch (error) {
         console.error('無法取得使用者資訊', error);
-        return null; // 錯誤時回傳 null
+        return null;
       }
     },
-
+    
     // 提交表單
     async handleSubmit() {
       this.isSubmitting = true;
-      console.log('提交的資料:', this.formData);
       try {
         if (this.isEditMode) {
           await axios.put(`/events/${this.eventId}`, this.formData);
           this.formStatus = { type: 'success', message: '活動更新成功！' };
+          this.$emit('event-updated');
         } else {
           await axios.post('/events', this.formData);
           this.formStatus = { type: 'success', message: '活動創建成功！' };
+          this.$emit('event-created'); 
         }
-        window.location.reload(); 
-        this.resetForm();
+        this.resetForm();  // 清空表單
+        window.location.reload();  // 重新載入頁面（可選，根據需求）
       } catch (error) {
         console.error('提交活動資料失敗', error);
-        console.error('錯誤詳細:', error.response?.data || '未知錯誤');
+        this.formStatus = { type: 'error', message: '提交活動資料失敗' };  // 設置錯誤訊息
       } finally {
         this.isSubmitting = false;
-        if (this.formStatus.type === 'success' && !this.isEditMode) {
-          // Only close the modal if the submission was successful and it's not in edit mode
-          this.showModal = false;
+        // 確保在處理成功時才關閉模態框
+        if (this.formStatus && this.formStatus.type === 'success' && !this.isEditMode) {
+          this.closeModal();
         }
       }
-    }
+    },
+    // 關閉模態框
+    closeModal() {
+      this.$emit('update:showModal', false);
+    },
+    // 重置表單資料
+    resetForm() {
+      this.formData = {
+        title: '',
+        description: '',
+        date: '',
+        location: '',
+        participantLimit: 0,
+        creator: '',
+      };
+      this.isEditMode = false;
+    },
   },
 };
 </script>
