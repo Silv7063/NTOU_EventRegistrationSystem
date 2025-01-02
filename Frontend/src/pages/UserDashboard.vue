@@ -75,14 +75,12 @@ export default {
     async fetchUserInfo() {
       try {
         const token = localStorage.getItem('authToken');
-        alert(token)
         const response = await this.$axios.get('/users/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        alert(response)
-        
+        this.user = response.data;
         await this.fetchUserEvents(token);
       } catch (error) {
         this.$store.dispatch('logout');
@@ -112,7 +110,7 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         });
-        this.$toast.success('已成功取消報名');
+        alert('刪除活動成功')
         await this.fetchUserEvents(token);
       } catch (error) {
         this.$toast.error('取消報名失敗');

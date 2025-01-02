@@ -16,10 +16,8 @@ const authMiddleware = async (req, res, next) => {
     try {
         // 驗證 JWT
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        
         // 查詢該 token 的用戶
-        const user = await User.findById(decoded.userId);
-
+        const user = await User.findById(decoded.Id);
         if (!user) {
             throw new Error('User not found');
         }
