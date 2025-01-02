@@ -74,6 +74,10 @@
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    background-image: url('@/assets/banner-background.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
   }
   .header {
     text-align: center;

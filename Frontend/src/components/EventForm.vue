@@ -3,6 +3,7 @@
     <!-- Modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
+        <button class="close-btn" @click="showModal = false">&times;</button>
         <div class="event-form">
           <h2>{{ isEditMode ? '編輯活動' : '創建活動' }}</h2>
           <form @submit.prevent="handleSubmit">
@@ -227,7 +228,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .modal-overlay {
   position: fixed;
@@ -252,7 +252,15 @@ export default {
   max-height: 90vh;
   overflow-y: auto;
 }
-
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 450px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+}
 .event-form {
   width: 100%;
 }
@@ -277,7 +285,6 @@ export default {
 .form-group {
   margin-bottom: 15px;
 }
-
 .form-group label {
   display: block;
   margin-bottom: 5px;
@@ -345,12 +352,10 @@ button:disabled {
 .form-status.error {
   background-color: #f8d7da;
   color: #721c24;
-}
-
+  }
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }

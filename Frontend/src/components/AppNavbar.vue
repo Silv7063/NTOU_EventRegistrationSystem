@@ -1,11 +1,12 @@
 <template>
   <nav class="navbar">
     <div class="navbar-logo">
+      <img src="@/assets/logo.png" alt="Logo" class="logo-image" />
       <router-link
         to="/"
         class="logo"
       >
-        海大活動借用系統
+        海大活動報名系統
       </router-link>
     </div>
     <div class="navbar-links">
@@ -29,7 +30,7 @@
         活動紀錄
       </router-link>
       <router-link
-        to="/user"
+        to="/user/dashboard"
         class="nav-link"
       >
         個人資料
@@ -77,26 +78,33 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff;
-  padding: 10px 20px;
+  background-color: white;
+  padding: 15px 20px;
   color: white;
 }
 
 .navbar-logo .logo {
   font-size: 24px;
   font-weight: bold;
-  color: white;
+  color: black;
   text-decoration: none;
+  position: relative;
+  top: -8px;
 }
-
+.logo-image {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
 .navbar-links {
   display: flex;
-  gap: 15px;
+  gap: 25px;
+  margin-left: 333px;
 }
 
 .nav-link {
   text-decoration: none;
-  color: white;
+  color: black;
   font-size: 16px;
 }
 
