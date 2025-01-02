@@ -58,4 +58,13 @@ router.put('/:userId/role', authMiddleware, authorizeRole(['admin']), async (req
   }
 });
 
+router.put('/updateProfile', authMiddleware, async (req, res) => {
+  try {
+    const updateUser = await userController.updateUserProfile(req);
+    res.status(200).json(updateUser);
+  } catch (error) {
+    res.status(400).json({ message: 'Failed to update user role', error: error.message });
+  }
+});
+
 module.exports = router;

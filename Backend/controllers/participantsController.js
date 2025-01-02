@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const Event = require('../models/Event');
 const mongoose = require('mongoose');
 const Registration = require('../models/Registration');
 
@@ -26,9 +27,33 @@ exports.deleteParticipant = async (participantId) => {
       }
       
       await Registration.findByIdAndDelete(new mongoose.Types.ObjectId(participantId));
+      //await cascadeDeleteEvent(participant.event, participant.participantId);
       return { message: '成功刪除報名記錄' };
     } catch (error) {
       console.error('Error deleting participant:', error.message);
       throw new Error('刪除報名記錄失敗');
     }
   }; 
+
+  const cascadeDeleteEvent = async (eventId, participantId) => {
+    console.log(`從活動 ${eventId} 中移除參與者 ${participantId}`);
+    try {
+      const event = await Event.findById(eventId);
+  
+      if (!event) {
+        throw new Error('活動不存在');
+      }
+  
+      // 從 participants 陣列中移除參與者
+      event.participants = event.participants.filter(
+        (id) => id.toString() !== participantId.toString()
+      );
+      
+
+      //await event.save();
+      console.log(`參與者 ${participantId} 已從活動 ${eventId} 中移除`);
+    } catch (error) {
+      console.error('Error in cascadeDeleteEvent:', error.message);
+      throw new Error('無法從活動中移除參與者');
+    }
+  };

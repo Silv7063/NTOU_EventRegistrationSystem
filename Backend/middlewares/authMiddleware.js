@@ -21,7 +21,6 @@ const authMiddleware = async (req, res, next) => {
         if (!user) {
             throw new Error('User not found');
         }
-        
         req.user = user;  // 把使用者資料附加到請求對象
         next();  // 進入下一個中介層
     } catch (err) {
