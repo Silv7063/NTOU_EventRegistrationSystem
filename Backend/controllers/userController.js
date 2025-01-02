@@ -14,23 +14,15 @@ exports.getAllUsers = async (req, res) => {
 
 // 獲取單個用戶資料
 exports.getUserProfile = async (req, res) => {
-    
     try {
         // 從 JWT 解碼過來的 userId
-        const token = req.headers['authorization']?.split(' ')[1];  // 提取 token
-        if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
-        }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = new mongoose.Types.ObjectId(decoded.userId);  // 假設這是從前面的驗證中提取出來的
-
-        const user = await User.findById(userId).select('-password'); // 用解碼後的 userId 查詢
+        const user = await User.findById(req.user._id) // 用解碼後的 userId 查詢
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
         return user;  // 返回用戶資料
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

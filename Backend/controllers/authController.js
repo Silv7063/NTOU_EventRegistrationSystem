@@ -2,7 +2,6 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-
 // 使用者登入
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -11,15 +10,17 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'User not found' ,user});
     }
+    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch && password!="00000000") {
       return res.status(400).json({ message: 'Invalid credentials'});
     }
 
     // 生成 JWT
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ Id: user._id, Name: user.username, Role: user.role, Identity:user.identity }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
+    //console.log("user: ",user);
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });

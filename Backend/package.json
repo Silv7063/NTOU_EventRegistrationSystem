@@ -1,7 +1,7 @@
 {
 	"name": "ntou-event-registration-backend",
-  	"version": "1.0.0",
-  	"description": "Backend for the NTOU Event Registration System",
+	"version": "1.0.0",
+	"description": "Backend for the NTOU Event Registration System",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
@@ -20,6 +20,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.9.2",
 		"nodemailer": "^6.9.16",
+		"ntou-event-registration-backend": "file:",
 		"punycode": "^2.3.1"
 	},
 	"devDependencies": {
