@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 // 設定 axios 基本 URL，這裡可以根據你的後端 API 調整
-axios.defaults.baseURL = 'http://localhost:4000'; // 或你後端的伺服器 URL
+axios.defaults.baseURL = 'https://ntou-eventregistrationsystem-backend.onrender.com'; // 或你後端的伺服器 URL
 axios.defaults.headers['Content-Type'] = 'application/json'; // 設定請求的預設標頭
 
 // 創建並掛載 Vue 應用
