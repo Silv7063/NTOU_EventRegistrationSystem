@@ -15,7 +15,7 @@ const app = express();
 
 // 使用中間件
 app.use(cors({// 跨域資源共享（CORS）
-  origin: ['https://your-frontend.onrender.com'],
+  origin: ['https://ntou-eventregistrationsystem-frontend.onrender.com/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 })); 
 app.use(express.json());  // 解析 JSON 請求體
