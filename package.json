@@ -1,5 +1,6 @@
 {
 	"scripts": {
+		"serve": "vue-cli-service build && serve -s dist",
 		"dev": "concurrently \"pnpm --prefix Frontend run dev\" \"pnpm --prefix Backend run dev\""
 	},
 	"devDependencies": {

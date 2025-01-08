@@ -5,7 +5,7 @@
 	"author": "National Taiwan Ocean University",
 	"private": true,
 	"scripts": {
-		"serve": "vue-cli-service serve",
+		"serve": "vue-cli-service build && serve -s dist",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"test": "vue-cli-service test:unit",
