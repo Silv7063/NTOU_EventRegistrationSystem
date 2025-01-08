@@ -14,10 +14,7 @@ dotenv.config();
 const app = express();
 
 // 使用中間件
-app.use(cors({// 跨域資源共享（CORS）
-  origin: ['https://ntou-eventregistrationsystem-frontend.onrender.com/'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-})); 
+app.use(cors()); 
 app.use(express.json());  // 解析 JSON 請求體
 app.use(express.urlencoded({ extended: true }));
 // 連接到 MongoDB 資料庫
